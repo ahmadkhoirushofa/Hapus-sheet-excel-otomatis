@@ -3,31 +3,31 @@ from openpyxl import load_workbook
 import shutil
 import zipfile
 
-# Fungsi untuk menghapus sheet "metadata kegiatan" jika ada
-def delete_metadata_kegiatan_sheet(file_path):
+# Fungsi untuk menghapus salah satu sheet (jika ada)
+def delete_sheet_A(file_path):
     try:
         # Load workbook
         workbook = load_workbook(filename=file_path)
         
-        # Cek apakah sheet "metadata kegiatan" ada
-        if "Metadata Kegiatan" in workbook.sheetnames:
-            # Jika sheet "metadata kegiatan" disembunyikan, ubah state-nya ke 'visible'
-            if workbook["Metadata Kegiatan"].sheet_state == 'hidden':
-                workbook["Metadata Kegiatan"].sheet_state = 'visible'
+        # Cek apakah sheet A yang dimaksud ada di file
+        if "Sheet A" in workbook.sheetnames:
+            # Jika sheet A disembunyikan, ubah state-nya ke 'visible'
+            if workbook["Sheet A"].sheet_state == 'hidden':
+                workbook["Sheet A"].sheet_state = 'visible'
                 
-            # Hapus sheet "metadata kegiatan"
-            workbook.remove(workbook["Metadata Kegiatan"])
+            # Hapus sheet A
+            workbook.remove(workbook["Sheet A"])
             # Simpan perubahan
             workbook.save(file_path)
-            print(f"Sheet 'metadata kegiatan' dihapus dari file {file_path}")
+            print(f"Sheet A dihapus dari file {file_path}")
         else:
-            print(f"Tidak ada sheet 'metadata kegiatan' di file {file_path}")
+            print(f"Tidak ada sheet A di file {file_path}")
     except Exception as e:
         print(f"Gagal memproses file {file_path}: {e}")
 
 # Path ke folder berisi file Excel
-folder_path = "D:\Magang\Hapus metadata kegiatan\Badan Kepegawaian dan Pengembangan Sumber Daya Manusia\MS-Var"
-output_folder = "Badan Kepegawaian dan Pengembangan Sumberdaya Manusia"
+folder_path = "file path"
+output_folder = "output path"
 
 
 # Buat folder untuk menyimpan file yang sudah diproses
@@ -43,7 +43,7 @@ for file_name in os.listdir(folder_path):
         shutil.copy2(original_file_path, processed_file_path)
         
         # Proses file di folder output
-        delete_metadata_kegiatan_sheet(processed_file_path)
+        delete_sheet_A(processed_file_path)
 
 # Buat file ZIP dari folder output
 zip_file_path = "processed_files.zip"
